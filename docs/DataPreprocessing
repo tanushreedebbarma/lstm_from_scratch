@@ -1,0 +1,48 @@
+# Data Preprocessing
+
+This project uses the "Car data.zip" dataset(provided by Instructor), which contains 18,457 CSV files, each representing the motion of a single vehicle over time. Every file includes 67 time steps and 12 features per step, capturing both the vehicle's state and its surrounding context.
+
+# Dataset Details
+- Files: 18,457 CSVs (one per vehicle episode)
+- Time steps: 67 per file
+- Features per step: 12  
+  Includes:
+  - (x, y) coordinates
+  - Velocity
+  - Acceleration
+  - Distance from lane center
+  - Presence of surrounding vehicles
+  - Relative distances to neighboring vehicles
+
+# Preprocessing Steps
+
+1. Sequence Splitting  
+   Each CSV file is treated as a sequence:
+   - First 62 time steps → used as input
+   - Last 5 time steps → used as target
+   - Target = 5 pairs of (x, y) → 10-dimensional output
+
+2. Cleaning
+   - Remove any rows with missing values using `dropna()`
+
+3. Feature Standardization  
+   - All features are standardized to zero mean and unit variance. 
+   - This improves training stability and model performance.
+
+4. Data Splitting  
+   - 70% → Training set  
+   - 15% → Validation set  
+   - 15% → Test set  
+   - Care is taken to prevent overlap between sets.
+
+5. Shuffling  
+   - Training data is randomized to remove sequence bias and improve generalization.
+
+6. Reshaping 
+   - Sequences are reshaped into the required input/output formats for the LSTM model.
+     
+# Input/Output Format
+- Input shape: `(62, 12)` per sample
+- Target shape: `(10,)` → 5 future (x, y) coordinate pairs
+     
+This preprocessing pipeline ensures that the model receives clean, normalized, and properly structured data to learn from — with no data leakage between training and evaluation phases.
