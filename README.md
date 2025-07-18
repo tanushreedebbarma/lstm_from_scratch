@@ -4,9 +4,11 @@ This implementation is built without the aid of deep learning libraries such as 
 
 # Project Structure
 ├── lstm_model/ # LSTM implementation using NumPy
+
 ├── docs/
 │ ├── DataPreprocessing.md
 │ └── TrainingProcedure.md
+
 ├── README.md
 └── LICENSE
 
