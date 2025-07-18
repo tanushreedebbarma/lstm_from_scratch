@@ -1,0 +1,52 @@
+# Training Procedure
+
+The LSTM model is trained to predict the future `(x, y)` coordinates of a vehicle over 5 time steps using the following strategies and configurations:
+# Training Strategies
+
+• Loss Function  
+- Mean Squared Error(MSE) is used as the training loss.  
+- Evaluation is done using Root Mean Square Error (RMSE).
+
+• Optimizer  
+- Adam Optimizer is used to accelerate convergence.  
+- Incorporates adaptive learning rates and momentum.
+
+• Learning Rate Scheduling  
+- Step decay strategy  
+- Learning rate is reduced by a factor of 0.1 every 10 epochs to improve late-stage convergence.
+
+• Early Stopping  
+- Training is halted if validation loss does not improve for 5 consecutive epochs. 
+- Helps prevent overfitting.
+
+• Dropout Regularization  
+- Dropout can be applied to hidden states to encourage generalization.  
+- Initially disabled: best RMSE was ≈ 0.229. 
+- Enabled at 0.2 dropout rate, RMSE increased to 0.3876, suggesting dropout was not helpful in this scenario.
+
+• Epochs  
+- Maximum: 30 epochs  
+- Early stopping often ends training earlier based on validation performance.
+
+#Training Loop Overview
+
+Each epoch includes:
+
+1. Forward pass through all training sequences.  
+2. Loss calculation (MSE between predicted and ground-truth trajectories).  
+3. Backpropagation Through Time (BPTT) to compute gradients. 
+4. Weight updates using the Adam optimizer.  
+5. Validation loss computed after each epoch. 
+6. Learning rate adjusted via schedule.  
+7. Early stopping check.
+
+# Logging & Evaluation
+
+- Per-epoch training and validation losses are logged.  
+- Model checkpoints may be saved when validation loss improves.  
+- Final evaluation is done using RMSE on the test set.  
+- Trajectory plots (true vs. predicted) are used for qualitative assessment.
+
+---
+
+This systematic training pipeline ensures stable convergence, prevents overfitting, and enables both quantitative and visual evaluation of the LSTM model.
